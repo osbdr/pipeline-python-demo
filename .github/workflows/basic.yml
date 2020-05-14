@@ -62,7 +62,7 @@ jobs:
       run: bandit -r *.py -f json -o report.json
 
     - name: upload artifact
-      if: succeeded() || failed()
+      if:  ${{ success() || failure() }}
       uses: actions/upload-artifact@v2
       with:
         name: Bandit Security Report
