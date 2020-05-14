@@ -16,6 +16,53 @@ jobs:
     - name: pip install
       run: pip install -r requirements.txt --user
 
-    - name: Check Dependencies
+    - name: outdated
       run: pip list --outdated --not-required --user | grep . && echo "there are outdated packages" && exit 1 || echo "all packages up to date"
 
+  black:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8.2
+
+    - name: pip install
+      run: pip install -r requirements.txt 
+
+    - name: black
+      run: black --check .
+
+  isort:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8.2
+
+    - name: pip install
+      run: pip install -r requirements.txt 
+
+    - name: isort
+      run: isort *.py -c -vb
+
+  security:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8.2
+
+    - name: pip install bandit
+      run: pip install bandit==1.6.2
+
+    - name: bandit
+      run: bandit -r *.py -f json -o report.json
+
+    - name: upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Bandit Security Report
+        path: report.json
