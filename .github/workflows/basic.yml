@@ -1,18 +1,3 @@
-# pipeline-python-demo
-
-Beispiel einer Pipeline, die folgendes kann:
-- Outdated Check
-- Code Format mit `black` überprüfen
-- Sortierung der Imports mit `isort` überprüfen
-- Tests ausführen
-- Security Check mit `bandit`
-- Erstellung eines Docker Images
-
-> **Hinweis**: 
-> - `pip list --outdated` endet unabhängig vom Ergebnis immer mit Exit Code `0`, damit die Pipeline entsprechend reagiert wurde der Befehl im Folgenden erweitert.
-
-
-```
 name: Standard Pipeline
 
 on:
@@ -108,12 +93,3 @@ jobs:
 
     - name: docker build
       run: docker build $BUILD_ARGS -t python-demo .
-```
-
-## Referenzen
-- pip list: https://pip.pypa.io/en/stable/reference/pip_list/
-- black: https://github.com/psf/black
-- isort: https://github.com/timothycrosley/isort
-- bandit: https://pypi.org/project/bandit/
-
-- Docker Pipeline: https://partner.bdr.de/gitlab/kfe-devops/docker-demo
