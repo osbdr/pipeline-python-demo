@@ -80,6 +80,7 @@ jobs:
       run: cat report.json
 
     - name: upload report
+      if:  ${{ success() || failure() }}
       uses: actions/upload-artifact@v2
       with:
         name: Bandit Security Report
