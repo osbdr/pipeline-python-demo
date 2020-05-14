@@ -107,7 +107,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: docker build
-      run: docker build $BUILD_ARGS -t python-demo .
+      run: docker build -t python-demo .
 ```
 
 ## Referenzen
