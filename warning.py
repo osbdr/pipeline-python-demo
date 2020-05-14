@@ -6,7 +6,7 @@ def to_yaml(object):
 
 
 def from_yaml(yaml_str):
-    return yaml.load(yaml_str)
+    return yaml.safe_load(yaml_str)
 
 
 yaml_str = to_yaml(
