@@ -47,6 +47,20 @@ jobs:
     - name: isort
       run: isort *.py -c -vb
 
+  test:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8.2
+
+    - name: pip install
+      run: pip install -r requirements.txt 
+
+    - name: test
+      run: python -m unittest discover
+
   security:
     runs-on: ubuntu-18.04
     steps:
@@ -61,9 +75,20 @@ jobs:
     - name: bandit
       run: bandit -r *.py -f json -o report.json
 
-    - name: upload artifact
+    - name: show report
       if:  ${{ success() || failure() }}
+      run: cat report.json
+
+    - name: upload report
       uses: actions/upload-artifact@v2
       with:
         name: Bandit Security Report
         path: report.json
+
+  docker:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: docker build
+      run: docker build $BUILD_ARGS -t python-demo .
