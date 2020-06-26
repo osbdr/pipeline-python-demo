@@ -8,20 +8,27 @@ Beispiel einer Pipeline, die folgendes kann:
 - Security Check mit `bandit`
 - Erstellung eines Docker Images
 
+Die Dependencies werden mit Renovate aktualisiert. Mehr Infos: https://github.com/renovatebot/renovate
+
 > **Hinweis**: 
 > - `pip list --outdated` endet unabhängig vom Ergebnis immer mit Exit Code `0`, damit die Pipeline entsprechend reagiert wurde der Befehl im Folgenden erweitert.
-
 
 ```
 name: Standard Pipeline
 
 on:
-  push:
   pull_request:
+    branches: '**'
+  push:
+    branches:
+      - develop
+  schedule:
+    - cron: '0 20 * * 5'
 
 jobs:
   outdated:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'renovate') == false
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
@@ -35,7 +42,7 @@ jobs:
       run: pip list --outdated --not-required --user | grep . && echo "there are outdated packages" && exit 1 || echo "all packages up to date"
 
   black:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
@@ -43,13 +50,13 @@ jobs:
         python-version: 3.8.2
 
     - name: pip install
-      run: pip install -r requirements.txt 
+      run: pip install -r requirements.txt
 
     - name: black
       run: black --check .
 
   isort:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
@@ -63,7 +70,7 @@ jobs:
       run: isort *.py -c -vb
 
   test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
@@ -77,7 +84,7 @@ jobs:
       run: python -m unittest discover
 
   security:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
@@ -102,7 +109,7 @@ jobs:
         path: report.json
 
   docker:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
 
