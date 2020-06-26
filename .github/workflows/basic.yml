@@ -1,12 +1,16 @@
 name: Standard Pipeline
 
 on:
-  push:
   pull_request:
+    branches: '**'
+  push:
+    branches:
+      - develop
 
 jobs:
   outdated:
     runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'renovate') == false
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
