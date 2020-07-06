@@ -51,7 +51,7 @@ jobs:
       run: pip install -r requirements.txt 
 
     - name: isort
-      run: isort --check .
+      run: isort --check --skip lib .
 
   test:
     runs-on: ubuntu-latest
