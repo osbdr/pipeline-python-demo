@@ -33,7 +33,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
       with:
-        python-version: 3.8.2
+        python-version: 3.8
 
     - name: pip install
       run: pip install -r requirements.txt --user
@@ -47,7 +47,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
       with:
-        python-version: 3.8.2
+        python-version: 3.8
 
     - name: pip install
       run: pip install -r requirements.txt
@@ -61,13 +61,13 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
       with:
-        python-version: 3.8.2
+        python-version: 3.8
 
     - name: pip install
-      run: pip install -r requirements.txt 
+      run: pip install -r requirements.txt
 
     - name: isort
-      run: isort *.py -c -vb
+      run: isort --check .
 
   test:
     runs-on: ubuntu-latest
@@ -75,7 +75,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
       with:
-        python-version: 3.8.2
+        python-version: 3.8
 
     - name: pip install
       run: pip install -r requirements.txt 
@@ -89,7 +89,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
       with:
-        python-version: 3.8.2
+        python-version: 3.8
 
     - name: pip install bandit
       run: pip install bandit==1.6.2
