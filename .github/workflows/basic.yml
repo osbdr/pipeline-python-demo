@@ -43,12 +43,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v1
       with:
         python-version: 3.8.2
 
     - name: pip install
-      run: pip install -r requirements.txt --user
+      run: pip install -r requirements.txt
 
     - name: isort
       run: isort --check .
